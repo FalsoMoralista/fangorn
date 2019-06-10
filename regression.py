@@ -57,7 +57,13 @@ regressor = DecisionTreeRegressor(random_state=0)
 # Evaluate our model through cross validation passing our predictor attributes and the expected price values
 # cv = amount of cross validation iterations
 # n_jobs = The number of CPUs to use to do the computation.
-scores = cross_val_score(estimator=regressor,X=predictors,y=prices,cv=4,n_jobs=-1)
+regressor.fit(X=predictors,y=prices)
+scores = cross_val_score(estimator=regressor,X=predictors,y=prices,cv=10,n_jobs=-1)
 # Calculates the mean and standard deviation
 mean = scores.mean()
 sd = scores.std()
+# Now let's visualize
+from sklearn.tree import export_graphviz  
+# export the decision tree to a tree.dot file 
+# for visualizing the plot easily anywhere 
+export_graphviz(regressor, out_file ='export/tree.dot', feature_names=predictors.columns)
