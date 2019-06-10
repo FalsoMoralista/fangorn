@@ -33,6 +33,22 @@ dataframe = dataframe.drop('number_of_reviews',axis=1)
 dataframe = dataframe.drop('is_business_travel_ready',axis=1)
 dataframe = dataframe.drop('cancellation_policy',axis=1)
 dataframe = dataframe.drop('amenities',axis=1)
+dataframe = dataframe.drop('instant_bookable',axis=1)
+# Splits the dataframe predictors
+prices = dataframe['price'].values
+predictors = dataframe.iloc[:,0:14].values
+
+# Transform cagtegorical features into numerical values
+# - Categorical columns: [0,1,2,7]
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+# First label encoder
+labelEncoder = LabelEncoder()
+predictors[:,0] = labelEncoder.fit_transform(predictors[:,0])
+predictors[:,1] = labelEncoder.fit_transform(predictors[:,1])
+predictors[:,2] = labelEncoder.fit_transform(predictors[:,2])
+predictors[:,7] = labelEncoder.fit_transform(predictors[:,7])
+# Then hot encoder
+hotEncoder = OneHotEncoder(categorical_features=[0,1,2,7])
+predictors = hotEncoder.fit_transform(predictors).toarray()
+
 print(dataframe.columns)
-
-
