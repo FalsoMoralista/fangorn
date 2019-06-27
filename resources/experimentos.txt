@@ -1,0 +1,8 @@
+Configuração 1 (splitting with over 800 samples): 
+[id]-[Registros],[Outliers],[Preenchimento dos dados],[Métrica],[Média],[Desvio Padrão]
+1 - Aprox. 10.000 registros, Com outliers , Nenhum, erro absoluto médio, 165.42, 35.44
+2 - Aprox. 10.000 registros, Sem outliers, Nenhum, erro absoluto médio, 58, 2.79
+3 - Aprox. 36.000 registros, Com outliers, Preenchimento por média, erro absoluto médio, 374.62, 142.27
+4 - Aprox. 22.000 registros, Sem outliers, Preenchimento por média, erro absoluto médio, 65.76, 4.45 
+5 - Aprox. 36.000 registros, Com outliers, Preenchimento por moda, erro absoluto médio, 379.94, 146.70
+6 - Aprox. 22.000 registros, Sem outliers, Preenchimento por moda, erro absoluto médio, 65.77, 4.68
