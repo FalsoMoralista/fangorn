@@ -4,7 +4,7 @@ import pandas as pd
 
 dataframe = pd.read_csv('resources/airbnb_rio.csv')
 # Drop null values
-dataframe = dataframe.dropna()
+#dataframe = dataframe.dropna()
 
 # Drops not used at all attributes
 dataframe = dataframe.drop('require_guest_phone_verification',axis=1)
@@ -42,6 +42,8 @@ dataframe = dataframe.drop('neighbourhood',axis=1)
 dataframe = dataframe.drop('is_location_exact',axis=1)
 dataframe = dataframe.drop('longitude',axis=1)
 dataframe = dataframe.drop('latitude',axis=1)
+dataframe = dataframe.drop('security_deposit',axis=1)
+
 
 # Fill null values
 columns = dataframe.columns
@@ -57,23 +59,32 @@ def fillMode(columns):
 fillMean(columns=columns)
 fillMode(columns=columns)
 
-dataframe = dataframe[dataframe.security_deposit< 5000]
 dataframe = dataframe[dataframe.price < 400]
+dataframe = dataframe[dataframe.price > 15]
+dataframe = dataframe[dataframe.accommodates < 15]
+dataframe = dataframe[dataframe.bathrooms< 4]
+dataframe = dataframe[dataframe.bedrooms< 4]
+dataframe = dataframe[dataframe.beds< 10]
+dataframe = dataframe[dataframe.cleaning_fee< 1000]
+dataframe = dataframe[dataframe.guests_included< 1000]
+dataframe = dataframe[dataframe.minimum_nights < 8]
+dataframe = dataframe[dataframe.maximum_nights < 30]
+
+
 
 #dataframe = dataframe.fillna()
 
 # Splits the dataframe predictors & targets
 prices = dataframe['price'].values
-predictors = dataframe.iloc[:,0:9].values
+predictors = dataframe.iloc[:,0:8].values
 dataframe = dataframe.drop('price',axis=1)
 
-#teste = dataframe['security_deposit'].value_counts() # nein
-
+#teste = dataframe['price'].value_counts() # nein
 
 # Create our & train our model 
 from sklearn.model_selection import cross_val_score
 from sklearn.tree import DecisionTreeRegressor
-regressor = DecisionTreeRegressor(random_state=0, min_samples_split=800, criterion='mae')
+regressor = DecisionTreeRegressor(random_state=0, min_samples_split=300, criterion='mae')
 # Evaluate our model through cross validation passing our predictor attributes and the expected price values
 # cv = amount of cross validation iterations
 # n_jobs = The number of CPUs to use to do the computation.
@@ -96,7 +107,19 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy import stats
 
-sns.distplot(prices)
-    
+
+
+plot = sns.distplot(dataframe['accommodates'])
+fig = plot.get_figure()
+fig.savefig("accomodates")
+plot = sns.distplot(dataframe['bathrooms']).get_figure().savefig("bathrooms")
+sns.distplot(dataframe['bedrooms']).get_figure().savefig("bedrooms")
+sns.distplot(dataframe['beds']).get_figure().savefig("beds")
+sns.distplot(dataframe['cleaning_fee']).get_figure().savefig("cleaning_fee")
+sns.distplot(dataframe['guests_included']).get_figure().savefig("guests_included")
+sns.distplot(dataframe['minimum_nights']).get_figure().savefig("minimum_nights")
+sns.distplot(dataframe['maximum_nights']).get_figure().savefig("maximum_nights")
+sns.distplot(dataframe['price']).get_figure().savefig("price")
+
 
 
