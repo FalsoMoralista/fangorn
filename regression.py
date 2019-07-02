@@ -59,14 +59,6 @@ def fillMode(columns):
 fillMean(columns=columns)
 fillMode(columns=columns)
 
-dataframe = dataframe[dataframe.price < 2000]
-prices = dataframe.iloc[:,8:9]
-bins = [0,500,1000,2000]
-labels = ['medio','medio_alto','alto']
-dataframe.price = pd.cut(x=dataframe.price,bins=bins,labels=labels)
-print(teste.value_counts())
-
-dataframe = dataframe[dataframe.price < 500]
 # BASELINE
 dataframe = dataframe[dataframe.price < 700]
 dataframe = dataframe[dataframe.security_deposit < 1000]
@@ -80,12 +72,7 @@ dataframe = dataframe[dataframe.cleaning_fee< 500]
 dataframe = dataframe[dataframe.guests_included< 6]
 dataframe = dataframe[dataframe.minimum_nights < 10]
 print(dataframe['price'].value_counts())
-# Discretizar:
-# cleaning_fee
-# security_deposit
-#
 
-#dataframe = dataframe.fillna()
 
 # Splits the dataframe predictors & targets
 prices = dataframe['price'].values
@@ -112,9 +99,6 @@ from sklearn.tree import export_graphviz
 # export the decision tree to a tree.dot file 
 # for visualizing the plot easily anywhere 
 export_graphviz(regressor, out_file ='export/tree.dot', feature_names=dataframe.columns, leaves_parallel=True)
-
-
-# test
 
 import seaborn as sns
 import matplotlib.pyplot as plt
