@@ -4,7 +4,7 @@ import pandas as pd
 
 dataframe = pd.read_csv('resources/airbnb_rio.csv')
 # Drop null values
-#dataframe = dataframe.dropna()
+dataframe = dataframe.dropna()
 
 # Drops not used at all attributes
 dataframe = dataframe.drop('require_guest_phone_verification',axis=1)
@@ -42,7 +42,7 @@ dataframe = dataframe.drop('neighbourhood',axis=1)
 dataframe = dataframe.drop('is_location_exact',axis=1)
 dataframe = dataframe.drop('longitude',axis=1)
 dataframe = dataframe.drop('latitude',axis=1)
-dataframe = dataframe.drop('security_deposit',axis=1)
+dataframe = dataframe.drop('maximum_nights',axis=1)
 
 
 # Fill null values
@@ -59,20 +59,20 @@ def fillMode(columns):
 fillMean(columns=columns)
 fillMode(columns=columns)
 
+# BASELINE
 dataframe = dataframe[dataframe.price < 400]
+dataframe = dataframe[dataframe.security_deposit < 1000]
 dataframe = dataframe[dataframe.price > 15]
-dataframe = dataframe[dataframe.accommodates < 15]
-dataframe = dataframe[dataframe.bathrooms< 4]
-dataframe = dataframe[dataframe.bedrooms< 4]
+dataframe = dataframe[dataframe.accommodates < 6]
+# BASELINE
+dataframe = dataframe[dataframe.bathrooms < 3]
+dataframe = dataframe[dataframe.bedrooms < 4]
 dataframe = dataframe[dataframe.beds< 10]
-dataframe = dataframe[dataframe.cleaning_fee< 1000]
-dataframe = dataframe[dataframe.guests_included< 1000]
-dataframe = dataframe[dataframe.minimum_nights < 8]
-dataframe = dataframe[dataframe.maximum_nights < 30]
+dataframe = dataframe[dataframe.cleaning_fee< 500]
+dataframe = dataframe[dataframe.guests_included< 6]
+dataframe = dataframe[dataframe.minimum_nights < 10]
+print(dataframe['price'].value_counts())
 
-
-
-#dataframe = dataframe.fillna()
 
 # Splits the dataframe predictors & targets
 prices = dataframe['price'].values
@@ -100,15 +100,12 @@ from sklearn.tree import export_graphviz
 # for visualizing the plot easily anywhere 
 export_graphviz(regressor, out_file ='export/tree.dot', feature_names=dataframe.columns, leaves_parallel=True)
 
-
-# test
-
 import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy import stats
 
-
-
+dataframe = dataframe[dataframe.price < 2000]
+sns.distplot(dataframe['accommodates'])
 plot = sns.distplot(dataframe['accommodates'])
 fig = plot.get_figure()
 fig.savefig("accomodates")
